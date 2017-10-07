@@ -12,6 +12,10 @@
 		EB3EF5561F88B3F9002E69D6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB3EF5541F88B3F9002E69D6 /* Main.storyboard */; };
 		EB3EF5581F88B3F9002E69D6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB3EF5571F88B3F9002E69D6 /* Assets.xcassets */; };
 		EB3EF55B1F88B3F9002E69D6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB3EF5591F88B3F9002E69D6 /* LaunchScreen.storyboard */; };
+		EB3EF5651F88B54B002E69D6 /* RobotKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB3EF5621F88B54B002E69D6 /* RobotKit.framework */; };
+		EB3EF5661F88B54B002E69D6 /* RobotUIKit.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EB3EF5631F88B54B002E69D6 /* RobotUIKit.bundle */; };
+		EB3EF5671F88B54B002E69D6 /* RobotUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB3EF5641F88B54B002E69D6 /* RobotUIKit.framework */; };
+		EB3EF56A1F88B5D9002E69D6 /* OllieOne-Bridging-Header.m in Sources */ = {isa = PBXBuildFile; fileRef = EB3EF5691F88B5D9002E69D6 /* OllieOne-Bridging-Header.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +26,11 @@
 		EB3EF5571F88B3F9002E69D6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EB3EF55A1F88B3F9002E69D6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EB3EF55C1F88B3F9002E69D6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EB3EF5621F88B54B002E69D6 /* RobotKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RobotKit.framework; sourceTree = "<group>"; };
+		EB3EF5631F88B54B002E69D6 /* RobotUIKit.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = RobotUIKit.bundle; sourceTree = "<group>"; };
+		EB3EF5641F88B54B002E69D6 /* RobotUIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RobotUIKit.framework; sourceTree = "<group>"; };
+		EB3EF5681F88B5D9002E69D6 /* OllieOni-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OllieOni-Bridging-Header.h"; sourceTree = "<group>"; };
+		EB3EF5691F88B5D9002E69D6 /* OllieOne-Bridging-Header.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OllieOne-Bridging-Header.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +38,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EB3EF5671F88B54B002E69D6 /* RobotUIKit.framework in Frameworks */,
+				EB3EF5651F88B54B002E69D6 /* RobotKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -54,12 +65,17 @@
 		EB3EF54F1F88B3F9002E69D6 /* OllieOni */ = {
 			isa = PBXGroup;
 			children = (
+				EB3EF5621F88B54B002E69D6 /* RobotKit.framework */,
+				EB3EF5631F88B54B002E69D6 /* RobotUIKit.bundle */,
+				EB3EF5641F88B54B002E69D6 /* RobotUIKit.framework */,
 				EB3EF5501F88B3F9002E69D6 /* AppDelegate.swift */,
 				EB3EF5521F88B3F9002E69D6 /* ViewController.swift */,
 				EB3EF5541F88B3F9002E69D6 /* Main.storyboard */,
 				EB3EF5571F88B3F9002E69D6 /* Assets.xcassets */,
 				EB3EF5591F88B3F9002E69D6 /* LaunchScreen.storyboard */,
 				EB3EF55C1F88B3F9002E69D6 /* Info.plist */,
+				EB3EF5691F88B5D9002E69D6 /* OllieOne-Bridging-Header.m */,
+				EB3EF5681F88B5D9002E69D6 /* OllieOni-Bridging-Header.h */,
 			);
 			path = OllieOni;
 			sourceTree = "<group>";
@@ -97,7 +113,13 @@
 					EB3EF54C1F88B3F9002E69D6 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = 9YYZRW8KFD;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -125,6 +147,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EB3EF55B1F88B3F9002E69D6 /* LaunchScreen.storyboard in Resources */,
+				EB3EF5661F88B54B002E69D6 /* RobotUIKit.bundle in Resources */,
 				EB3EF5581F88B3F9002E69D6 /* Assets.xcassets in Resources */,
 				EB3EF5561F88B3F9002E69D6 /* Main.storyboard in Resources */,
 			);
@@ -138,6 +161,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EB3EF5531F88B3F9002E69D6 /* ViewController.swift in Sources */,
+				EB3EF56A1F88B5D9002E69D6 /* OllieOne-Bridging-Header.m in Sources */,
 				EB3EF5511F88B3F9002E69D6 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -261,11 +285,22 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 9YYZRW8KFD;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/OllieOni",
+				);
 				INFOPLIST_FILE = OllieOni/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lc++",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.Musashiorg.musashi.OllieOni;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "OllieOni/OllieOni-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -274,11 +309,21 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 9YYZRW8KFD;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/OllieOni",
+				);
 				INFOPLIST_FILE = OllieOni/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lc++",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.Musashiorg.musashi.OllieOni;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "OllieOni/OllieOni-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
