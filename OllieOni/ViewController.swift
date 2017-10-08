@@ -7,8 +7,15 @@
 //
 
 import UIKit
+import Speech
 
 class ViewController: UIViewController {
+  
+  private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "ja-JP"))!
+  private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
+  private var recognitionTask: SFSpeechRecognitionTask?
+  private let audioEngine = AVAudioEngine()
+  @IBOutlet weak var recordButton: UIButton!
   
   @IBOutlet weak var stateLabel: UILabel!
   var robot: RKConvenienceRobot!
@@ -17,23 +24,7 @@ class ViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    guard motionManager.isDeviceMotionAvailable else {
-      return
-    }
-    motionManager.deviceMotionUpdateInterval = 0.5
-    motionManager.startDeviceMotionUpdates(to: OperationQueue.main) { [weak self] deviceMotionData, error in
-      
-      guard let robot = self?.robot else { return }
-      
-      guard let roll = deviceMotionData?.attitude.roll,
-        let pitch = deviceMotionData?.attitude.pitch else {
-          print("no data")
-          return
-      }
-      print("roll: \(roll), pitch: \(pitch)")
-      //角度と速度を決める明日（yawは無視するかも)
-      self?.drive(roll: roll, pitch: pitch)
-    }
+    recordButton.isEnabled = false
     // Do any additional setup after loading the view, typically from a nib.
     NotificationCenter.default.addObserver(self, selector: #selector(ViewController.appDidBecomeActive(_:)), name: .UIApplicationDidBecomeActive, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(ViewController.appWillResignActive(_:)), name: .UIApplicationWillResignActive, object: nil)
@@ -41,11 +32,94 @@ class ViewController: UIViewController {
     RKRobotDiscoveryAgent.shared().addNotificationObserver(self, selector: #selector(ViewController.handleRobotStateChangeNotification(_:)))
   }
   
-  override func viewDidDisappear(_ animated: Bool) {
-    super.viewDidDisappear(animated)
-    robot?.remove(self)
+  private func startRecording() throws {
+    if let recognitionTask = recognitionTask {
+      recognitionTask.cancel()
+      self.recognitionTask = nil
+    }
+    
+    let audioSession = AVAudioSession.sharedInstance()
+    try audioSession.setCategory(AVAudioSessionCategoryRecord)
+    try audioSession.setMode(AVAudioSessionModeMeasurement)
+    try audioSession.setActive(true, with: .notifyOthersOnDeactivation)
+    
+    recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
+    
+    guard let inputNode = audioEngine.inputNode else { return }
+    
+    guard let recognitionRequest = recognitionRequest else { return }
+    
+    recognitionRequest.shouldReportPartialResults = true
+    
+    recognitionTask = speechRecognizer.recognitionTask(with: recognitionRequest, resultHandler: {[weak self] (result, error) in
+      guard let `self` = self else { return }
+      var isFinal = false
+      print(result)
+      if let result = result {
+        let resultString = result.bestTranscription.formattedString
+        print("result: \(resultString)")
+        self.judgeResultAndDrive(resultString)
+        isFinal = result.isFinal
+      }
+      
+      if error != nil || isFinal {
+        self.audioEngine.stop()
+        inputNode.removeTap(onBus: 0)
+        
+        self.recognitionRequest = nil
+        self.recognitionTask = nil
+        
+        self.recordButton.isEnabled = true
+      }
+    })
+    
+    let recordingFormat = inputNode.outputFormat(forBus: 0)
+    inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { (buffer, time) in
+      self.recognitionRequest?.append(buffer)
+    }
+    
+    
+    audioEngine.prepare()
+    try audioEngine.start()
   }
-
+  
+  func judgeResultAndDrive(_ string: String) {
+    switch string {
+    case "右":
+      robot.drive(withHeading: 90.0, andVelocity: 0.1)
+      break
+    case "左":
+      robot.drive(withHeading: 270.0, andVelocity: 0.1)
+      break
+    case "前":
+      robot.drive(withHeading: 0.0, andVelocity: 0.1)
+      break
+    case "後":
+      robot.drive(withHeading: 180.0, andVelocity: 0.1)
+      break
+    case "ストップ":
+      robot.stop()
+      break
+    default:
+      self.toggleLED()
+    }
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    speechRecognizer.delegate = self
+    
+    SFSpeechRecognizer.requestAuthorization { authStatus in
+      OperationQueue.main.addOperation {
+        switch authStatus {
+        case .authorized:
+          self.recordButton.isEnabled = true
+        default:
+          self.recordButton.isEnabled = false
+        }
+      }
+    }
+  }
+  
   func appDidBecomeActive(_ notification: Notification) {
     startDiscovery()
   }
@@ -86,12 +160,6 @@ class ViewController: UIViewController {
         convenienceRobot?.disconnect()
       } else {
         self.robot = RKConvenienceRobot(robot: noteRobot)
-        self.robot.add(self)
-        self.robot.enableCollisions(true)
-        self.robot.enableLocator(true)
-        var mask: RKDataStreamingMask = .accelerometerFilteredAll
-        mask = mask.union(.imuAnglesFilteredAll)
-        robot.enableSensors(mask, at: .dataStreamingRate10)
         toggleLED()
       }
       break
@@ -107,36 +175,8 @@ class ViewController: UIViewController {
     }
   }
   
-  func drive(roll: Double, pitch: Double) {
-    if roll > 1.0 {
-      robot.drive(withHeading: 90.0, andVelocity: 0.1)
-    } else if roll < -1.0 {
-      robot.drive(withHeading: 270.0, andVelocity: 0.1)
-    } else if pitch > 0.5 {
-      robot.drive(withHeading: 180.0, andVelocity: 0.1)
-    } else if pitch < -0.5 {
-      robot.drive(withHeading: 0.0, andVelocity: 0.1)
-    }
-  }
-
-  @IBAction func goForward(_ sender: UIButton) {
-    robot.drive(withHeading: 0.0, andVelocity: 0.1)
-  }
-  
   @IBAction func stop(_ sender: UIButton) {
     robot.stop()
-  }
-  
-  @IBAction func goRight(_ sender: UIButton) {
-    robot.drive(withHeading: 90, andVelocity: 0.1)
-  }
-  
-  @IBAction func goLeft(_ sender: UIButton) {
-    robot.drive(withHeading: 270, andVelocity: 0.1)
-  }
-  
-  @IBAction func goBack(_ sender: UIButton) {
-    robot.drive(withHeading: 180, andVelocity: 0.1)
   }
 
   func toggleLED() {
@@ -156,17 +196,27 @@ class ViewController: UIViewController {
       })
     }
   }
+  
+  @IBAction func recordButtonTapped(_ sender: UIButton) {
+    if audioEngine.isRunning {
+      print("stop")
+      audioEngine.stop()
+      recognitionRequest?.endAudio()
+      recordButton.isEnabled = false
+    } else {
+      print("start")
+      try! startRecording()
+    }
+  }
+  
 }
 
-extension ViewController: RKResponseObserver {
-  func handle(_ message: RKAsyncMessage!, forRobot robot: RKRobotBase!) {
-    if message is RKCollisionDetectedAsyncData {
-//      print("collision: \(message)")
-    } else if message is RKDeviceSensorsAsyncData {
-      let sensorsAsyncData = message as! RKDeviceSensorsAsyncData
-      if let sensorsData = sensorsAsyncData.dataFrames.last as? RKDeviceSensorsData {
-//        print("sensorsData: \(sensorsData)")
-      }
+extension ViewController: SFSpeechRecognizerDelegate {
+  func speechRecognizer(_ speechRecognizer: SFSpeechRecognizer, availabilityDidChange available: Bool) {
+    if available {
+      recordButton.isEnabled = true
+    } else {
+      recordButton.isEnabled = false
     }
   }
 }

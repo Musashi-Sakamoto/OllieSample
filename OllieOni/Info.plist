@@ -43,5 +43,9 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>OllieOniで音声認識使います</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>OllieOniでマイク使います</string>
 </dict>
 </plist>
