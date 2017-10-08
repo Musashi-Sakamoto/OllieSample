@@ -13,9 +13,27 @@ class ViewController: UIViewController {
   @IBOutlet weak var stateLabel: UILabel!
   var robot: RKConvenienceRobot!
   var ledOn = false
+  var motionManager = CMMotionManager()
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    guard motionManager.isDeviceMotionAvailable else {
+      return
+    }
+    motionManager.deviceMotionUpdateInterval = 0.5
+    motionManager.startDeviceMotionUpdates(to: OperationQueue.main) { [weak self] deviceMotionData, error in
+      
+      guard let robot = self?.robot else { return }
+      
+      guard let roll = deviceMotionData?.attitude.roll,
+        let pitch = deviceMotionData?.attitude.pitch else {
+          print("no data")
+          return
+      }
+      print("roll: \(roll), pitch: \(pitch)")
+      //角度と速度を決める明日（yawは無視するかも)
+      self?.drive(roll: roll, pitch: pitch)
+    }
     // Do any additional setup after loading the view, typically from a nib.
     NotificationCenter.default.addObserver(self, selector: #selector(ViewController.appDidBecomeActive(_:)), name: .UIApplicationDidBecomeActive, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(ViewController.appWillResignActive(_:)), name: .UIApplicationWillResignActive, object: nil)
@@ -25,7 +43,7 @@ class ViewController: UIViewController {
   
   override func viewDidDisappear(_ animated: Bool) {
     super.viewDidDisappear(animated)
-    robot.remove(self)
+    robot?.remove(self)
   }
 
   func appDidBecomeActive(_ notification: Notification) {
@@ -70,10 +88,10 @@ class ViewController: UIViewController {
         self.robot = RKConvenienceRobot(robot: noteRobot)
         self.robot.add(self)
         self.robot.enableCollisions(true)
+        self.robot.enableLocator(true)
         var mask: RKDataStreamingMask = .accelerometerFilteredAll
         mask = mask.union(.imuAnglesFilteredAll)
         robot.enableSensors(mask, at: .dataStreamingRate10)
-        
         toggleLED()
       }
       break
@@ -89,6 +107,18 @@ class ViewController: UIViewController {
     }
   }
   
+  func drive(roll: Double, pitch: Double) {
+    if roll > 1.0 {
+      robot.drive(withHeading: 90.0, andVelocity: 0.1)
+    } else if roll < -1.0 {
+      robot.drive(withHeading: 270.0, andVelocity: 0.1)
+    } else if pitch > 0.5 {
+      robot.drive(withHeading: 180.0, andVelocity: 0.1)
+    } else if pitch < -0.5 {
+      robot.drive(withHeading: 0.0, andVelocity: 0.1)
+    }
+  }
+
   @IBAction func goForward(_ sender: UIButton) {
     robot.drive(withHeading: 0.0, andVelocity: 0.1)
   }
@@ -114,11 +144,14 @@ class ViewController: UIViewController {
       if ledOn {
         robot.setLEDWithRed(0.0, green: 0.0, blue: 0.0)
       } else {
-        robot.setLEDWithRed(0.0, green: 0.0, blue: 1.0)
+        let red = arc4random_uniform(255)
+        let green = arc4random_uniform(255)
+        let blue = arc4random_uniform(255)
+        robot.setLEDWithRed(Float(red) / 255.0, green: Float(green) / 255.0, blue: Float(blue) / 255.0)
       }
       ledOn = !ledOn
       
-      DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+      DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
         self.toggleLED()
       })
     }
@@ -128,11 +161,11 @@ class ViewController: UIViewController {
 extension ViewController: RKResponseObserver {
   func handle(_ message: RKAsyncMessage!, forRobot robot: RKRobotBase!) {
     if message is RKCollisionDetectedAsyncData {
-      print("collision: \(message)")
+//      print("collision: \(message)")
     } else if message is RKDeviceSensorsAsyncData {
       let sensorsAsyncData = message as! RKDeviceSensorsAsyncData
       if let sensorsData = sensorsAsyncData.dataFrames.last as? RKDeviceSensorsData {
-        print("sensorsData: \(sensorsData)")
+//        print("sensorsData: \(sensorsData)")
       }
     }
   }
