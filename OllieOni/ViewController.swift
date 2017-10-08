@@ -58,6 +58,7 @@ class ViewController: UIViewController {
       if let result = result {
         let resultString = result.bestTranscription.formattedString
         print("result: \(resultString)")
+        self.stateLabel.text = resultString
         self.judgeResultAndDrive(resultString)
         isFinal = result.isFinal
       }
@@ -68,7 +69,6 @@ class ViewController: UIViewController {
         
         self.recognitionRequest = nil
         self.recognitionTask = nil
-        
         self.recordButton.isEnabled = true
       }
     })
@@ -97,12 +97,10 @@ class ViewController: UIViewController {
     case "後":
       robot.drive(withHeading: 180.0, andVelocity: 0.1)
       break
-    case "ストップ":
-      robot.stop()
-      break
     default:
-      self.toggleLED()
+      print("コマンド失敗")
     }
+    toggleLED()
   }
   
   override func viewDidAppear(_ animated: Bool) {
@@ -160,7 +158,6 @@ class ViewController: UIViewController {
         convenienceRobot?.disconnect()
       } else {
         self.robot = RKConvenienceRobot(robot: noteRobot)
-        toggleLED()
       }
       break
     case .disconnected:
@@ -204,7 +201,9 @@ class ViewController: UIViewController {
       recognitionRequest?.endAudio()
       recordButton.isEnabled = false
     } else {
+      robot.stop()
       print("start")
+      toggleLED()
       try! startRecording()
     }
   }
