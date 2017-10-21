@@ -13,6 +13,7 @@ class ViewController: UIViewController {
   
   private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "ja-JP"))!
   private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
+  @IBOutlet weak var movingStateLabel: UILabel!
   private var recognitionTask: SFSpeechRecognitionTask?
   private let audioEngine = AVAudioEngine()
   @IBOutlet weak var recordButton: UIButton!
@@ -86,16 +87,16 @@ class ViewController: UIViewController {
   func judgeResultAndDrive(_ string: String) {
     switch string {
     case "右":
-      robot.drive(withHeading: 90.0, andVelocity: 0.1)
+      robot.drive(withHeading: 90.0, andVelocity: 0.2)
       break
     case "左":
-      robot.drive(withHeading: 270.0, andVelocity: 0.1)
+      robot.drive(withHeading: 270.0, andVelocity: 0.2)
       break
     case "前":
-      robot.drive(withHeading: 0.0, andVelocity: 0.1)
+      robot.drive(withHeading: 0.0, andVelocity: 0.2)
       break
     case "後":
-      robot.drive(withHeading: 180.0, andVelocity: 0.1)
+      robot.drive(withHeading: 180.0, andVelocity: 0.2)
       break
     default:
       print("コマンド失敗")
@@ -197,12 +198,14 @@ class ViewController: UIViewController {
   @IBAction func recordButtonTapped(_ sender: UIButton) {
     if audioEngine.isRunning {
       print("stop")
+      movingStateLabel.text = "stopped"
       audioEngine.stop()
       recognitionRequest?.endAudio()
       recordButton.isEnabled = false
     } else {
       robot.stop()
       print("start")
+      movingStateLabel.text = "started"
       toggleLED()
       try! startRecording()
     }
