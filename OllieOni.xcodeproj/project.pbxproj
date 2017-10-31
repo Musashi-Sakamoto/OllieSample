@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EB1DBB741FA8B05800C2D83A /* JoyStickView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1DBB731FA8B05800C2D83A /* JoyStickView.swift */; };
+		EB1DBB761FA8B08800C2D83A /* CoreGraphics+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1DBB751FA8B08800C2D83A /* CoreGraphics+Additions.swift */; };
 		EB3EF5511F88B3F9002E69D6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3EF5501F88B3F9002E69D6 /* AppDelegate.swift */; };
 		EB3EF5531F88B3F9002E69D6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3EF5521F88B3F9002E69D6 /* ViewController.swift */; };
 		EB3EF5561F88B3F9002E69D6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB3EF5541F88B3F9002E69D6 /* Main.storyboard */; };
@@ -20,6 +22,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		EB1DBB731FA8B05800C2D83A /* JoyStickView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoyStickView.swift; sourceTree = "<group>"; };
+		EB1DBB751FA8B08800C2D83A /* CoreGraphics+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreGraphics+Additions.swift"; sourceTree = "<group>"; };
 		EB3EF54D1F88B3F9002E69D6 /* OllieOni.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OllieOni.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB3EF5501F88B3F9002E69D6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EB3EF5521F88B3F9002E69D6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -49,6 +53,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EB1DBB771FA8B09700C2D83A /* JoyStick */ = {
+			isa = PBXGroup;
+			children = (
+				EB1DBB731FA8B05800C2D83A /* JoyStickView.swift */,
+				EB1DBB751FA8B08800C2D83A /* CoreGraphics+Additions.swift */,
+			);
+			path = JoyStick;
+			sourceTree = "<group>";
+		};
 		EB3EF5441F88B3F9002E69D6 = {
 			isa = PBXGroup;
 			children = (
@@ -69,6 +82,7 @@
 		EB3EF54F1F88B3F9002E69D6 /* OllieOni */ = {
 			isa = PBXGroup;
 			children = (
+				EB1DBB771FA8B09700C2D83A /* JoyStick */,
 				EB3EF5621F88B54B002E69D6 /* RobotKit.framework */,
 				EB3EF5631F88B54B002E69D6 /* RobotUIKit.bundle */,
 				EB3EF5641F88B54B002E69D6 /* RobotUIKit.framework */,
@@ -172,6 +186,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EB1DBB741FA8B05800C2D83A /* JoyStickView.swift in Sources */,
+				EB1DBB761FA8B08800C2D83A /* CoreGraphics+Additions.swift in Sources */,
 				EB3EF5531F88B3F9002E69D6 /* ViewController.swift in Sources */,
 				EB3EF56A1F88B5D9002E69D6 /* OllieOne-Bridging-Header.m in Sources */,
 				EB3EF5511F88B3F9002E69D6 /* AppDelegate.swift in Sources */,
