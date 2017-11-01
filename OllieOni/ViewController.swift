@@ -7,34 +7,51 @@
 //
 
 import UIKit
+import ARKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, ARSCNViewDelegate {
     
   @IBOutlet weak var stateLabel: UILabel!
   var robot: RKConvenienceRobot!
   var ledOn = false
+  @IBOutlet weak var sceneView: ARSCNView!
     
-    lazy var joystick: JoyStickView = {
-        let joystick = JoyStickView(frame: CGRect(origin: self.view.center, size: CGSize(width: 100, height: 100)))
-        self.view.addSubview(joystick)
-        joystick.movable = false
-        joystick.alpha = 1.0
-        joystick.baseAlpha = 0.5
-        joystick.handleTintColor = UIColor.darkGray
-        return joystick
-    }()
+  @IBOutlet weak var joystick: JoyStickView!
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    // Do any additional setup after loading the view, typically from a nib.
+    
+    sceneView.delegate = self
+    sceneView.scene = SCNScene()
+    setUpJoyStick()
+    
     NotificationCenter.default.addObserver(self, selector: #selector(ViewController.appDidBecomeActive(_:)), name: .UIApplicationDidBecomeActive, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(ViewController.appWillResignActive(_:)), name: .UIApplicationWillResignActive, object: nil)
     
     RKRobotDiscoveryAgent.shared().addNotificationObserver(self, selector: #selector(ViewController.handleRobotStateChangeNotification(_:)))
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    let configuration = ARWorldTrackingConfiguration()
+    configuration.planeDetection = .horizontal
+    sceneView.session.run(configuration)
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    sceneView.session.pause()
+  }
+  
+  func setUpJoyStick() {
+    joystick.movable = false
+    joystick.alpha = 1.0
+    joystick.baseAlpha = 0.5
+    joystick.handleTintColor = UIColor.darkGray
     joystick.monitor = { [weak self] angle, displacement in
-        let velocity = displacement * 0.2
-        guard let robot = self?.robot else { return }
-        robot.drive(withHeading: Float(angle), andVelocity: Float(velocity))
+      let velocity = displacement * 0.2
+      guard let robot = self?.robot else { return }
+      robot.drive(withHeading: Float(angle), andVelocity: Float(velocity))
     }
   }
   
@@ -89,28 +106,6 @@ class ViewController: UIViewController {
       break
     default:
       print("coudn't connected")
-    }
-  }
-  
-  @IBAction func stop(_ sender: UIButton) {
-    robot.stop()
-  }
-
-  func toggleLED() {
-    if let robot = self.robot {
-      if ledOn {
-        robot.setLEDWithRed(0.0, green: 0.0, blue: 0.0)
-      } else {
-        let red = arc4random_uniform(255)
-        let green = arc4random_uniform(255)
-        let blue = arc4random_uniform(255)
-        robot.setLEDWithRed(Float(red) / 255.0, green: Float(green) / 255.0, blue: Float(blue) / 255.0)
-      }
-      ledOn = !ledOn
-      
-      DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
-        self.toggleLED()
-      })
     }
   }
 }

@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -21,20 +22,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X22-U2-6jD">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </arscnView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sfB-sB-JGs">
                                 <rect key="frame" x="21" y="28" width="37" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="sleep"/>
                                 <connections>
                                     <action selector="sleepButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vow-fe-Q59"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xka-X5-4iY">
-                                <rect key="frame" x="172" y="255" width="31" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="stop"/>
-                                <connections>
-                                    <action selector="stop:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0a7-KF-iPT"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8xe-3h-gB7">
@@ -44,10 +40,27 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TUE-jZ-IHh" customClass="JoyStickView" customModule="OllieOni" customModuleProvider="target">
+                                <rect key="frame" x="16" y="529" width="130" height="130"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="130" id="Hbh-th-lFD"/>
+                                    <constraint firstAttribute="width" constant="130" id="oMh-5Z-88K"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="X22-U2-6jD" secondAttribute="trailing" id="34A-MJ-Zl6"/>
+                            <constraint firstItem="TUE-jZ-IHh" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="Cuo-1D-Oma"/>
+                            <constraint firstItem="X22-U2-6jD" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="FTk-PP-jCj"/>
+                            <constraint firstItem="X22-U2-6jD" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="Zfh-f4-fPz"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="X22-U2-6jD" secondAttribute="bottom" id="byX-Y3-UBd"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="TUE-jZ-IHh" secondAttribute="bottom" constant="8" id="fZP-zF-rmy"/>
+                        </constraints>
                     </view>
                     <connections>
+                        <outlet property="joystick" destination="TUE-jZ-IHh" id="tqb-8s-qtE"/>
+                        <outlet property="sceneView" destination="X22-U2-6jD" id="3bX-ux-8rb"/>
                         <outlet property="stateLabel" destination="8xe-3h-gB7" id="zzZ-7m-J6m"/>
                     </connections>
                 </viewController>
