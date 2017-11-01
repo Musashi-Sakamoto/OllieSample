@@ -4,7 +4,6 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -47,6 +46,10 @@
                                     <constraint firstAttribute="width" constant="130" id="oMh-5Z-88K"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sWg-Re-0mB">
+                                <rect key="frame" x="60" y="269" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -59,6 +62,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="highlightView" destination="sWg-Re-0mB" id="NfC-Rn-QkJ"/>
                         <outlet property="joystick" destination="TUE-jZ-IHh" id="tqb-8s-qtE"/>
                         <outlet property="sceneView" destination="X22-U2-6jD" id="3bX-ux-8rb"/>
                         <outlet property="stateLabel" destination="8xe-3h-gB7" id="zzZ-7m-J6m"/>

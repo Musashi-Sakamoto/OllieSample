@@ -8,6 +8,7 @@
 
 import UIKit
 import ARKit
+import Vision
 
 class ViewController: UIViewController, ARSCNViewDelegate {
     
@@ -15,20 +16,72 @@ class ViewController: UIViewController, ARSCNViewDelegate {
   var robot: RKConvenienceRobot!
   var ledOn = false
   @IBOutlet weak var sceneView: ARSCNView!
-    
+  @IBOutlet weak var highlightView: UIView? {
+    didSet {
+      self.highlightView?.layer.borderColor = UIColor.white.cgColor
+      self.highlightView?.layer.borderWidth = 2
+    }
+  }
+  var visionSequenceHandler = VNSequenceRequestHandler()
+  var lastObservation: VNDetectedObjectObservation?
+  
   @IBOutlet weak var joystick: JoyStickView!
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    highlightView?.frame = .zero
     
     sceneView.delegate = self
+    sceneView.session.delegate = self
     sceneView.scene = SCNScene()
     setUpJoyStick()
+    sceneView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(ViewController.userTapped(with:))))
     
     NotificationCenter.default.addObserver(self, selector: #selector(ViewController.appDidBecomeActive(_:)), name: .UIApplicationDidBecomeActive, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(ViewController.appWillResignActive(_:)), name: .UIApplicationWillResignActive, object: nil)
     
     RKRobotDiscoveryAgent.shared().addNotificationObserver(self, selector: #selector(ViewController.handleRobotStateChangeNotification(_:)))
+  }
+  
+  @objc func userTapped(with gestureRecognizer: UITapGestureRecognizer) {
+    highlightView?.frame.size = CGSize(width: 100, height: 100)
+    highlightView?.center = gestureRecognizer.location(in: self.view)
+    
+    let originalRect = self.highlightView?.frame ?? .zero
+    
+    let t = CGAffineTransform(scaleX: 1.0 / self.view.frame.size.width, y: 1.0 / self.view.frame.size.height)
+    let normalizedHighlightImageBoundingBox = originalRect.applying(t)
+    
+    guard let fromViewToCameraImageTransform = self.sceneView.session.currentFrame?.displayTransform(for: .portrait, viewportSize: self.sceneView.frame.size).inverted() else { return }
+    var trackImageBoundingBoxInImage = normalizedHighlightImageBoundingBox.applying(fromViewToCameraImageTransform)
+    trackImageBoundingBoxInImage.origin.y = 1 - trackImageBoundingBoxInImage.origin.y
+    let newObservation = VNDetectedObjectObservation(boundingBox: trackImageBoundingBoxInImage)
+    self.lastObservation = newObservation
+  }
+  
+  func handleVisionRequestUpdate(_ request: VNRequest, error: Error?) {
+    DispatchQueue.main.async {
+      guard let newObservation = request.results?.first as? VNDetectedObjectObservation else {
+        self.visionSequenceHandler = VNSequenceRequestHandler()
+        return
+      }
+      
+      self.lastObservation = newObservation
+      guard newObservation.confidence >= 0.3 else {
+        self.highlightView?.frame = .zero
+        return
+      }
+      
+      var transformedRect = newObservation.boundingBox
+      transformedRect.origin.y = 1 - transformedRect.origin.y
+      
+      guard let fromCameraImageToViewTransform = self.sceneView.session.currentFrame?.displayTransform(for: .portrait, viewportSize: self.sceneView.frame.size) else { return }
+      let normalizedHighlightImageBoundingBox = transformedRect.applying(fromCameraImageToViewTransform)
+      let t = CGAffineTransform(scaleX: self.view.frame.size.width, y: self.view.frame.size.height)
+      let unnormalizedTrackImageBoundingBox = normalizedHighlightImageBoundingBox.applying(t)
+      
+      self.highlightView?.frame = unnormalizedTrackImageBoundingBox
+    }
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -106,6 +159,25 @@ class ViewController: UIViewController, ARSCNViewDelegate {
       break
     default:
       print("coudn't connected")
+    }
+  }
+}
+
+extension ViewController: ARSessionDelegate {
+  func session(_ session: ARSession, didUpdate frame: ARFrame) {
+    guard let pixelBuffer: CVPixelBuffer = session.currentFrame?.capturedImage,
+    let lastObservation = lastObservation else {
+      self.visionSequenceHandler = VNSequenceRequestHandler()
+      return
+    }
+    
+    let request = VNTrackObjectRequest(detectedObjectObservation: lastObservation, completionHandler: self.handleVisionRequestUpdate)
+    request.trackingLevel = .fast
+    
+    do {
+      try self.visionSequenceHandler.perform([request], on: pixelBuffer)
+    } catch {
+      print("Throws: \(error)")
     }
   }
 }
