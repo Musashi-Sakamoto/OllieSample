@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		41A109791FAADE1E00641C72 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 41A109781FAADE1E00641C72 /* art.scnassets */; };
 		EB1DBB741FA8B05800C2D83A /* JoyStickView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1DBB731FA8B05800C2D83A /* JoyStickView.swift */; };
 		EB1DBB761FA8B08800C2D83A /* CoreGraphics+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1DBB751FA8B08800C2D83A /* CoreGraphics+Additions.swift */; };
 		EB3EF5511F88B3F9002E69D6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3EF5501F88B3F9002E69D6 /* AppDelegate.swift */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		41A109781FAADE1E00641C72 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 		EB1DBB731FA8B05800C2D83A /* JoyStickView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoyStickView.swift; sourceTree = "<group>"; };
 		EB1DBB751FA8B08800C2D83A /* CoreGraphics+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreGraphics+Additions.swift"; sourceTree = "<group>"; };
 		EB3EF54D1F88B3F9002E69D6 /* OllieOni.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OllieOni.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -94,6 +96,7 @@
 				EB3EF55C1F88B3F9002E69D6 /* Info.plist */,
 				EB3EF5691F88B5D9002E69D6 /* OllieOne-Bridging-Header.m */,
 				EB3EF5681F88B5D9002E69D6 /* OllieOni-Bridging-Header.h */,
+				41A109781FAADE1E00641C72 /* art.scnassets */,
 			);
 			path = OllieOni;
 			sourceTree = "<group>";
@@ -138,7 +141,6 @@
 				TargetAttributes = {
 					EB3EF54C1F88B3F9002E69D6 = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = 9YYZRW8KFD;
 						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -174,6 +176,7 @@
 			files = (
 				EB3EF55B1F88B3F9002E69D6 /* LaunchScreen.storyboard in Resources */,
 				EB3EF5661F88B54B002E69D6 /* RobotUIKit.bundle in Resources */,
+				41A109791FAADE1E00641C72 /* art.scnassets in Resources */,
 				EB3EF5581F88B3F9002E69D6 /* Assets.xcassets in Resources */,
 				EB3EF5561F88B3F9002E69D6 /* Main.storyboard in Resources */,
 			);
@@ -314,7 +317,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = 9YYZRW8KFD;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/OllieOni",
@@ -331,6 +334,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "OllieOni/OllieOni-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -339,7 +343,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = 9YYZRW8KFD;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/OllieOni",
@@ -355,6 +359,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "OllieOni/OllieOni-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
