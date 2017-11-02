@@ -93,6 +93,11 @@ class ViewController: UIViewController {
     guard let result = sceneView.hitTest(point).first else { return }
     let node = result.node
     if node.name == name {
+      let soundNode = SCNNode()
+      let source = SCNAudioSource(named: "hitBug.wav")!
+      let action = SCNAction.playAudio(source, waitForCompletion: false)
+      soundNode.runAction(action)
+      sceneView.scene.rootNode.addChildNode(soundNode)
       let particleSystem = SCNParticleSystem(named: "Explosion", inDirectory: nil)!
       let systemNode = SCNNode()
       systemNode.addParticleSystem(particleSystem)

@@ -10,6 +10,7 @@
 		41A109791FAADE1E00641C72 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 41A109781FAADE1E00641C72 /* art.scnassets */; };
 		41A1097C1FAAF28700641C72 /* Explosion.scnp in Resources */ = {isa = PBXBuildFile; fileRef = 41A1097A1FAAF28700641C72 /* Explosion.scnp */; };
 		41A1097D1FAAF28700641C72 /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 41A1097B1FAAF28700641C72 /* spark.png */; };
+		41A1097F1FAAFB6600641C72 /* hitBug.wav in Resources */ = {isa = PBXBuildFile; fileRef = 41A1097E1FAAFB6600641C72 /* hitBug.wav */; };
 		EB1DBB741FA8B05800C2D83A /* JoyStickView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1DBB731FA8B05800C2D83A /* JoyStickView.swift */; };
 		EB1DBB761FA8B08800C2D83A /* CoreGraphics+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1DBB751FA8B08800C2D83A /* CoreGraphics+Additions.swift */; };
 		EB3EF5511F88B3F9002E69D6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3EF5501F88B3F9002E69D6 /* AppDelegate.swift */; };
@@ -28,6 +29,7 @@
 		41A109781FAADE1E00641C72 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 		41A1097A1FAAF28700641C72 /* Explosion.scnp */ = {isa = PBXFileReference; lastKnownFileType = file.scp; path = Explosion.scnp; sourceTree = "<group>"; };
 		41A1097B1FAAF28700641C72 /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
+		41A1097E1FAAFB6600641C72 /* hitBug.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = hitBug.wav; sourceTree = "<group>"; };
 		EB1DBB731FA8B05800C2D83A /* JoyStickView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoyStickView.swift; sourceTree = "<group>"; };
 		EB1DBB751FA8B08800C2D83A /* CoreGraphics+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreGraphics+Additions.swift"; sourceTree = "<group>"; };
 		EB3EF54D1F88B3F9002E69D6 /* OllieOni.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OllieOni.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,6 +90,7 @@
 		EB3EF54F1F88B3F9002E69D6 /* OllieOni */ = {
 			isa = PBXGroup;
 			children = (
+				41A1097E1FAAFB6600641C72 /* hitBug.wav */,
 				EB1DBB771FA8B09700C2D83A /* JoyStick */,
 				EB3EF5621F88B54B002E69D6 /* RobotKit.framework */,
 				EB3EF5631F88B54B002E69D6 /* RobotUIKit.bundle */,
@@ -182,6 +185,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EB3EF55B1F88B3F9002E69D6 /* LaunchScreen.storyboard in Resources */,
+				41A1097F1FAAFB6600641C72 /* hitBug.wav in Resources */,
 				41A1097C1FAAF28700641C72 /* Explosion.scnp in Resources */,
 				EB3EF5661F88B54B002E69D6 /* RobotUIKit.bundle in Resources */,
 				41A1097D1FAAF28700641C72 /* spark.png in Resources */,
