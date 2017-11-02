@@ -93,6 +93,11 @@ class ViewController: UIViewController {
     guard let result = sceneView.hitTest(point).first else { return }
     let node = result.node
     if node.name == name {
+      let particleSystem = SCNParticleSystem(named: "Explosion", inDirectory: nil)!
+      let systemNode = SCNNode()
+      systemNode.addParticleSystem(particleSystem)
+      systemNode.position = node.position
+      sceneView.scene.rootNode.addChildNode(systemNode)
       node.removeFromParentNode()
       onSuccess?()
     }
