@@ -85,6 +85,16 @@ class ViewController: UIViewController {
       let unnormalizedTrackImageBoundingBox = normalizedHighlightImageBoundingBox.applying(t)
       
       self.highlightView?.frame = unnormalizedTrackImageBoundingBox
+      self.hitNode(at: self.highlightView!.center, name: "pumpkin")
+    }
+  }
+  
+  func hitNode(at point: CGPoint, name: String, onSuccess: (() -> Void)? = nil) {
+    guard let result = sceneView.hitTest(point).first else { return }
+    let node = result.node
+    if node.name == name {
+      node.removeFromParentNode()
+      onSuccess?()
     }
   }
   
