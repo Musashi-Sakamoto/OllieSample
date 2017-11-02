@@ -10,7 +10,7 @@ import UIKit
 import ARKit
 import Vision
 
-class ViewController: UIViewController, ARSCNViewDelegate {
+class ViewController: UIViewController {
     
   @IBOutlet weak var stateLabel: UILabel!
   var robot: RKConvenienceRobot!
@@ -26,6 +26,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
   var lastObservation: VNDetectedObjectObservation?
   
   @IBOutlet weak var joystick: JoyStickView!
+  var pumpkinNode: SCNNode?
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -34,6 +35,9 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     sceneView.delegate = self
     sceneView.session.delegate = self
     sceneView.scene = SCNScene()
+    
+    pumpkinNode = SCNScene(named: "art.scnassets/Halloween_Pumpkin.dae")!.rootNode.childNode(withName: "pumpkin", recursively: true)
+    
     setUpJoyStick()
     sceneView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(ViewController.userTapped(with:))))
     
@@ -161,6 +165,21 @@ class ViewController: UIViewController, ARSCNViewDelegate {
       print("coudn't connected")
     }
   }
+}
+
+extension ViewController: ARSCNViewDelegate {
+    func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
+        var node: SCNNode?
+        if let planeAnchor = anchor as? ARPlaneAnchor {
+            node = SCNNode()
+            let pumpkin = pumpkinNode?.clone()
+            pumpkin?.position = SCNVector3Make(planeAnchor.center.x, 0.1, planeAnchor.center.z)
+            node?.addChildNode(pumpkin!)
+        } else {
+            print("not plane anchor \(anchor)")
+        }
+        return node
+    }
 }
 
 extension ViewController: ARSessionDelegate {

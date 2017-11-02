@@ -20,6 +20,8 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>For Augmented Reality</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>OllieOniでマイク使います</string>
 	<key>NSMotionUsageDescription</key>
@@ -47,7 +49,5 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-	<key>NSCameraUsageDescription</key>
-	<string>For Augmented Reality</string>
 </dict>
 </plist>
