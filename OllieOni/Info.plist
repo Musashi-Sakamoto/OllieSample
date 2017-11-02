@@ -22,12 +22,8 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>For Augmented Reality</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>OllieOniでマイク使います</string>
 	<key>NSMotionUsageDescription</key>
 	<string>use core motion for ollie controller</string>
-	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>OllieOniで音声認識使います</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>bluetooth-central</string>
