@@ -46,10 +46,10 @@
                                     <constraint firstAttribute="width" constant="130" id="oMh-5Z-88K"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sWg-Re-0mB">
-                                <rect key="frame" x="60" y="269" width="240" height="128"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="hammer" translatesAutoresizingMaskIntoConstraints="NO" id="q3l-n2-nF1">
+                                <rect key="frame" x="67" y="296" width="240" height="128"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </view>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -62,7 +62,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="highlightView" destination="sWg-Re-0mB" id="NfC-Rn-QkJ"/>
+                        <outlet property="highlightView" destination="q3l-n2-nF1" id="vqj-k5-6op"/>
                         <outlet property="joystick" destination="TUE-jZ-IHh" id="tqb-8s-qtE"/>
                         <outlet property="sceneView" destination="X22-U2-6jD" id="3bX-ux-8rb"/>
                         <outlet property="stateLabel" destination="8xe-3h-gB7" id="zzZ-7m-J6m"/>
@@ -73,4 +73,7 @@
             <point key="canvasLocation" x="32.799999999999997" y="37.331334332833585"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="hammer" width="512" height="512"/>
+    </resources>
 </document>

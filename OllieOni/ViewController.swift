@@ -16,12 +16,7 @@ class ViewController: UIViewController {
   var robot: RKConvenienceRobot!
   var ledOn = false
   @IBOutlet weak var sceneView: ARSCNView!
-  @IBOutlet weak var highlightView: UIView? {
-    didSet {
-      self.highlightView?.layer.borderColor = UIColor.white.cgColor
-      self.highlightView?.layer.borderWidth = 2
-    }
-  }
+  @IBOutlet weak var highlightView: UIView?
   var visionSequenceHandler = VNSequenceRequestHandler()
   var lastObservation: VNDetectedObjectObservation?
   
