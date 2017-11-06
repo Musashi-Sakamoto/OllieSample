@@ -37,7 +37,6 @@ class ViewController: UIViewController {
     pumpkinNode?.loadModel()
     charizardNode = VirtualObject(name: "Charizard.dae")
     charizardNode?.loadModel()
-    print("charizard: \(charizardNode?.isPlaced)")
     
     setUpJoyStick()
     sceneView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(ViewController.userTapped(with:))))
@@ -86,7 +85,9 @@ class ViewController: UIViewController {
       let unnormalizedTrackImageBoundingBox = normalizedHighlightImageBoundingBox.applying(t)
       
       self.highlightView?.frame = unnormalizedTrackImageBoundingBox
-      self.hitNode(at: self.highlightView!.center, name: "pumpkin") {
+      self.hitNode(at: self.highlightView!.center, name: "pumpkin") { [weak self] node in
+        guard let `self` = self else { return }
+        node.removeFromParentNode()
         let charizard = self.charizardNode?.clone()
         guard let result = self.sceneView.hitTest(self.highlightView!.center, types: [.estimatedHorizontalPlane]).first else { return }
         charizard?.position = SCNVector3Make(result.worldTransform.columns.3.x, result.worldTransform.columns.3.y, result.worldTransform.columns.3.z)
@@ -94,17 +95,26 @@ class ViewController: UIViewController {
         Utility.playSound(scene: self.sceneView, name: "BR_Charizard.wav")
         Utility.showParticle(scene: self.sceneView, name: "Fire", position: charizard!.position)
       }
+      self.hitNode(at: self.highlightView!.center, name: "lizardon", onSuccess: { [weak self] node in
+        guard let `self` = self else { return }
+        self.counter += 1
+        print("counter: \(self.counter)")
+        if self.counter >= 100 {
+          //TODO nodeを全部消して終了
+          node.removeFromParentNode()
+        }
+      })
     }
   }
+  var counter = 0
   
-  func hitNode(at point: CGPoint, name: String, onSuccess: () -> Void) {
+  func hitNode(at point: CGPoint, name: String, onSuccess: (SCNNode) -> Void) {
     guard let result = sceneView.hitTest(point).first else { return }
     let node = result.node
     if node.name == name {
       Utility.playSound(scene: sceneView, name: "hitBug.wav")
       Utility.showParticle(scene: sceneView, name: "Explosion", position: node.position)
-      node.removeFromParentNode()
-      onSuccess()
+      onSuccess(node)
     }
   }
   

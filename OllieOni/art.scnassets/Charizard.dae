@@ -4,8 +4,8 @@
   <contributor>
    <authoring_tool>SceneKit Collada Exporter v1.0</authoring_tool>
   </contributor>
-  <created>2017-11-06T06:44:59Z</created>
-  <modified>2017-11-06T06:44:59Z</modified>
+  <created>2017-11-06T08:10:49Z</created>
+  <modified>2017-11-06T08:10:49Z</modified>
   <unit meter="1.000000"/>
   <up_axis>Z_UP</up_axis>
  </asset>
@@ -239,7 +239,7 @@
      </bind_material>
     </instance_geometry>
    </node>
-   <node id="polygon1_mat1" name="polygon1_mat1">
+   <node id="polygon1_mat1" name="lizardon">
     <matrix>0.001 0 0 0 0 0.001 0 0 0 0 0.001 0 0 0 0 1 </matrix>
     <instance_geometry url="#geometry9">
      <bind_material>
