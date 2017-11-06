@@ -89,7 +89,7 @@ class ViewController: UIViewController {
         guard let `self` = self else { return }
         node.removeFromParentNode()
         let charizard = self.charizardNode?.clone()
-        guard let result = self.sceneView.hitTest(self.highlightView!.center, types: [.estimatedHorizontalPlane]).first else { return }
+        guard let result = self.sceneView.hitTest(self.highlightView!.center, types: [.featurePoint]).first else { return }
         charizard?.position = SCNVector3Make(result.worldTransform.columns.3.x, result.worldTransform.columns.3.y, result.worldTransform.columns.3.z)
         self.sceneView.scene.rootNode.addChildNode(charizard!)
         Utility.playSound(scene: self.sceneView, name: "BR_Charizard.wav")
