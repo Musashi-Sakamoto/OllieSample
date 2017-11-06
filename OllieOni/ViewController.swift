@@ -22,7 +22,7 @@ class ViewController: UIViewController {
   var charizardPosition: SCNVector3?
   
   @IBOutlet weak var joystick: JoyStickView!
-  var pumpkinNode: VirtualObject?
+  var bigHeadNode: VirtualObject?
   var charizardNode: VirtualObject?
 
   override func viewDidLoad() {
@@ -33,8 +33,8 @@ class ViewController: UIViewController {
     sceneView.session.delegate = self
     sceneView.scene = SCNScene()
     
-    pumpkinNode = VirtualObject(name: "Halloween_Pumpkin.dae")
-    pumpkinNode?.loadModel()
+    bigHeadNode = VirtualObject(name: "giantHead.dae")
+    bigHeadNode?.loadModel()
     charizardNode = VirtualObject(name: "Charizard.dae")
     charizardNode?.loadModel()
     
@@ -85,7 +85,7 @@ class ViewController: UIViewController {
       let unnormalizedTrackImageBoundingBox = normalizedHighlightImageBoundingBox.applying(t)
       
       self.highlightView?.frame = unnormalizedTrackImageBoundingBox
-      self.hitNode(at: self.highlightView!.center, name: "pumpkin") { [weak self] node in
+      self.hitNode(at: self.highlightView!.center, name: "giantHead") { [weak self] node in
         guard let `self` = self else { return }
         node.removeFromParentNode()
         let charizard = self.charizardNode?.clone()
@@ -202,22 +202,23 @@ extension ViewController: ARSCNViewDelegate {
         var node: SCNNode?
         if let planeAnchor = anchor as? ARPlaneAnchor {
             node = SCNNode()
-            let pumpkin = pumpkinNode?.clone()
-            pumpkin?.position = SCNVector3Make(planeAnchor.center.x, 0.1, planeAnchor.center.z)
-            charizardPosition = pumpkin?.position
-            node?.addChildNode(pumpkin!)
+            let bigHead = bigHeadNode?.clone()
+            bigHead?.position = SCNVector3Make(planeAnchor.center.x, 0.1, planeAnchor.center.z)
+            charizardPosition = bigHead?.position
+            node?.addChildNode(bigHead!)
+            let rotate = SCNAction.rotateBy(x: 0, y: 1, z: 0, duration: 1)
             let move1 = SCNAction.moveBy(x: 0.5, y: 0, z: 0, duration: 1)
             let scale1 = SCNAction.scale(by: 3.0, duration: 1)
-            let group1 = SCNAction.group([move1, scale1])
+            let group1 = SCNAction.group([move1, scale1, rotate])
             let move2 = SCNAction.moveBy(x: -0.5, y: 0, z: 0, duration: 1)
             let scale2 = SCNAction.scale(by: 1.0 / 3.0, duration: 1)
-            let group2 = SCNAction.group([move2, scale2])
+            let group2 = SCNAction.group([move2, scale2, rotate])
             let move3 = SCNAction.moveBy(x: 0, y: 0, z: 0.5, duration: 1)
             let scale3 = SCNAction.scale(by: 3.0, duration: 1)
-            let group3 = SCNAction.group([move3, scale3])
+            let group3 = SCNAction.group([move3, scale3, rotate])
             let move4 = SCNAction.moveBy(x: 0, y: 0, z: -0.5, duration: 1)
             let scale4 = SCNAction.scale(by: 1.0 / 3.0, duration: 1)
-            let group4 = SCNAction.group([move4, scale4])
+            let group4 = SCNAction.group([move4, scale4, rotate])
             let sequence = SCNAction.sequence([group1, group2, group3, group4])
             Utility.repeatAction(node: node!, action: sequence)
         } else {
