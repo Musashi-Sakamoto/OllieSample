@@ -19,11 +19,9 @@ class ViewController: UIViewController {
   @IBOutlet weak var highlightView: UIView?
   var visionSequenceHandler = VNSequenceRequestHandler()
   var lastObservation: VNDetectedObjectObservation?
-  var charizardPosition: SCNVector3?
   
   @IBOutlet weak var joystick: JoyStickView!
-  var bigHeadNode: VirtualObject?
-  var charizardNode: VirtualObject?
+  var flashNode: VirtualObject?
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -33,10 +31,8 @@ class ViewController: UIViewController {
     sceneView.session.delegate = self
     sceneView.scene = SCNScene()
     
-    bigHeadNode = VirtualObject(name: "giantHead.dae")
-    bigHeadNode?.loadModel()
-    charizardNode = VirtualObject(name: "Charizard.dae")
-    charizardNode?.loadModel()
+    flashNode = VirtualObject(name: "Flash.dae")
+    flashNode?.loadModel()
     
     setUpJoyStick()
     sceneView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(ViewController.userTapped(with:))))
@@ -85,28 +81,12 @@ class ViewController: UIViewController {
       let unnormalizedTrackImageBoundingBox = normalizedHighlightImageBoundingBox.applying(t)
       
       self.highlightView?.frame = unnormalizedTrackImageBoundingBox
-      self.hitNode(at: self.highlightView!.center, name: "giantHead") { [weak self] node in
+      self.hitNode(at: self.highlightView!.center, name: "flash") { [weak self] node in
         guard let `self` = self else { return }
         node.removeFromParentNode()
-        let charizard = self.charizardNode?.clone()
-        guard let result = self.sceneView.hitTest(self.highlightView!.center, types: [.featurePoint]).first else { return }
-        charizard?.position = SCNVector3Make(result.worldTransform.columns.3.x, result.worldTransform.columns.3.y, result.worldTransform.columns.3.z)
-        self.sceneView.scene.rootNode.addChildNode(charizard!)
-        Utility.playSound(scene: self.sceneView, name: "BR_Charizard.wav")
-        Utility.showParticle(scene: self.sceneView, name: "Fire", position: charizard!.position)
       }
-      self.hitNode(at: self.highlightView!.center, name: "lizardon", onSuccess: { [weak self] node in
-        guard let `self` = self else { return }
-        self.counter += 1
-        print("counter: \(self.counter)")
-        if self.counter >= 100 {
-          //TODO nodeを全部消して終了
-          node.removeFromParentNode()
-        }
-      })
     }
   }
-  var counter = 0
   
   func hitNode(at point: CGPoint, name: String, onSuccess: (SCNNode) -> Void) {
     guard let result = sceneView.hitTest(point).first else { return }
@@ -202,24 +182,14 @@ extension ViewController: ARSCNViewDelegate {
         var node: SCNNode?
         if let planeAnchor = anchor as? ARPlaneAnchor {
             node = SCNNode()
-            let bigHead = bigHeadNode?.clone()
-            bigHead?.position = SCNVector3Make(planeAnchor.center.x, 0.1, planeAnchor.center.z)
-            charizardPosition = bigHead?.position
-            node?.addChildNode(bigHead!)
-            let rotate = SCNAction.rotateBy(x: 0, y: 1, z: 0, duration: 1)
-            let move1 = SCNAction.moveBy(x: 0.5, y: 0, z: 0, duration: 1)
-            let scale1 = SCNAction.scale(by: 3.0, duration: 1)
-            let group1 = SCNAction.group([move1, scale1, rotate])
-            let move2 = SCNAction.moveBy(x: -0.5, y: 0, z: 0, duration: 1)
-            let scale2 = SCNAction.scale(by: 1.0 / 3.0, duration: 1)
-            let group2 = SCNAction.group([move2, scale2, rotate])
-            let move3 = SCNAction.moveBy(x: 0, y: 0, z: 0.5, duration: 1)
-            let scale3 = SCNAction.scale(by: 3.0, duration: 1)
-            let group3 = SCNAction.group([move3, scale3, rotate])
-            let move4 = SCNAction.moveBy(x: 0, y: 0, z: -0.5, duration: 1)
-            let scale4 = SCNAction.scale(by: 1.0 / 3.0, duration: 1)
-            let group4 = SCNAction.group([move4, scale4, rotate])
-            let sequence = SCNAction.sequence([group1, group2, group3, group4])
+            let flash = flashNode?.clone()
+            flash?.position = SCNVector3Make(planeAnchor.center.x, 0.1, planeAnchor.center.z)
+            node?.addChildNode(flash!)
+            let move1 = SCNAction.moveBy(x: 1, y: 0, z: 0, duration: 0.1)
+            let move2 = SCNAction.moveBy(x: -1, y: 0, z: 0, duration: 0.1)
+            let move3 = SCNAction.moveBy(x: 0, y: 0, z: 1, duration: 0.1)
+            let move4 = SCNAction.moveBy(x: 0, y: 0, z: -1, duration: 0.1)
+            let sequence = SCNAction.sequence([move1, move2, move3, move4])
             Utility.repeatAction(node: node!, action: sequence)
         } else {
             print("not plane anchor \(anchor)")
