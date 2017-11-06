@@ -21,7 +21,7 @@ class ViewController: UIViewController {
   var lastObservation: VNDetectedObjectObservation?
   
   @IBOutlet weak var joystick: JoyStickView!
-  var pumpkinNode: SCNNode?
+  var pumpkinNode: VirtualObject?
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -31,7 +31,8 @@ class ViewController: UIViewController {
     sceneView.session.delegate = self
     sceneView.scene = SCNScene()
     
-    pumpkinNode = SCNScene(named: "art.scnassets/Halloween_Pumpkin.dae")!.rootNode.childNode(withName: "pumpkin", recursively: true)
+    pumpkinNode = VirtualObject(name: "Halloween_Pumpkin.dae")
+    pumpkinNode?.loadModel()
     
     setUpJoyStick()
     sceneView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(ViewController.userTapped(with:))))
