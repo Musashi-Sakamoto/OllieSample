@@ -19,9 +19,11 @@ class ViewController: UIViewController {
   @IBOutlet weak var highlightView: UIView?
   var visionSequenceHandler = VNSequenceRequestHandler()
   var lastObservation: VNDetectedObjectObservation?
+  var charizardPosition: SCNVector3?
   
   @IBOutlet weak var joystick: JoyStickView!
   var pumpkinNode: VirtualObject?
+  var charizardNode: VirtualObject?
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -33,6 +35,9 @@ class ViewController: UIViewController {
     
     pumpkinNode = VirtualObject(name: "Halloween_Pumpkin.dae")
     pumpkinNode?.loadModel()
+    charizardNode = VirtualObject(name: "Charizard.dae")
+    charizardNode?.loadModel()
+    print("charizard: \(charizardNode?.isPlaced)")
     
     setUpJoyStick()
     sceneView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(ViewController.userTapped(with:))))
@@ -81,11 +86,15 @@ class ViewController: UIViewController {
       let unnormalizedTrackImageBoundingBox = normalizedHighlightImageBoundingBox.applying(t)
       
       self.highlightView?.frame = unnormalizedTrackImageBoundingBox
-      self.hitNode(at: self.highlightView!.center, name: "pumpkin")
+      self.hitNode(at: self.highlightView!.center, name: "pumpkin") {
+        let charizard = self.charizardNode?.clone()
+        charizard?.position = self.charizardPosition!
+        self.sceneView.scene.rootNode.addChildNode(charizard!)
+      }
     }
   }
   
-  func hitNode(at point: CGPoint, name: String, onSuccess: (() -> Void)? = nil) {
+  func hitNode(at point: CGPoint, name: String, onSuccess: () -> Void) {
     guard let result = sceneView.hitTest(point).first else { return }
     let node = result.node
     if node.name == name {
@@ -100,7 +109,7 @@ class ViewController: UIViewController {
       systemNode.position = node.position
       sceneView.scene.rootNode.addChildNode(systemNode)
       node.removeFromParentNode()
-      onSuccess?()
+      onSuccess()
     }
   }
   
@@ -190,6 +199,7 @@ extension ViewController: ARSCNViewDelegate {
             node = SCNNode()
             let pumpkin = pumpkinNode?.clone()
             pumpkin?.position = SCNVector3Make(planeAnchor.center.x, 0.1, planeAnchor.center.z)
+            charizardPosition = pumpkin?.position
             node?.addChildNode(pumpkin!)
             let move1 = SCNAction.moveBy(x: 0.5, y: 0, z: 0, duration: 1)
             let scale1 = SCNAction.scale(by: 3.0, duration: 1)
