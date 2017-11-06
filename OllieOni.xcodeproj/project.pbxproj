@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		4146C2371FB01B260059A728 /* VirtualObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4146C2361FB01B260059A728 /* VirtualObject.swift */; };
+		4146C23E1FB03DE80059A728 /* BR_Charizard.wav in Resources */ = {isa = PBXBuildFile; fileRef = 4146C23D1FB03DE80059A728 /* BR_Charizard.wav */; };
+		4146C2401FB0421C0059A728 /* Fire.scnp in Resources */ = {isa = PBXBuildFile; fileRef = 4146C23F1FB0421C0059A728 /* Fire.scnp */; };
 		41A109791FAADE1E00641C72 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 41A109781FAADE1E00641C72 /* art.scnassets */; };
 		41A1097C1FAAF28700641C72 /* Explosion.scnp in Resources */ = {isa = PBXBuildFile; fileRef = 41A1097A1FAAF28700641C72 /* Explosion.scnp */; };
 		41A1097D1FAAF28700641C72 /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 41A1097B1FAAF28700641C72 /* spark.png */; };
@@ -29,6 +31,8 @@
 
 /* Begin PBXFileReference section */
 		4146C2361FB01B260059A728 /* VirtualObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualObject.swift; sourceTree = "<group>"; };
+		4146C23D1FB03DE80059A728 /* BR_Charizard.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = BR_Charizard.wav; sourceTree = "<group>"; };
+		4146C23F1FB0421C0059A728 /* Fire.scnp */ = {isa = PBXFileReference; lastKnownFileType = file.scp; path = Fire.scnp; sourceTree = "<group>"; };
 		41A109781FAADE1E00641C72 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 		41A1097A1FAAF28700641C72 /* Explosion.scnp */ = {isa = PBXFileReference; lastKnownFileType = file.scp; path = Explosion.scnp; sourceTree = "<group>"; };
 		41A1097B1FAAF28700641C72 /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
@@ -94,6 +98,7 @@
 		EB3EF54F1F88B3F9002E69D6 /* OllieOni */ = {
 			isa = PBXGroup;
 			children = (
+				4146C23D1FB03DE80059A728 /* BR_Charizard.wav */,
 				41A1097E1FAAFB6600641C72 /* hitBug.wav */,
 				EB1DBB771FA8B09700C2D83A /* JoyStick */,
 				EB3EF5621F88B54B002E69D6 /* RobotKit.framework */,
@@ -112,6 +117,7 @@
 				41A109781FAADE1E00641C72 /* art.scnassets */,
 				EBD20B941FAED4D3000EA6A5 /* Utility.swift */,
 				4146C2361FB01B260059A728 /* VirtualObject.swift */,
+				4146C23F1FB0421C0059A728 /* Fire.scnp */,
 			);
 			path = OllieOni;
 			sourceTree = "<group>";
@@ -192,6 +198,8 @@
 			files = (
 				EB3EF55B1F88B3F9002E69D6 /* LaunchScreen.storyboard in Resources */,
 				41A1097F1FAAFB6600641C72 /* hitBug.wav in Resources */,
+				4146C23E1FB03DE80059A728 /* BR_Charizard.wav in Resources */,
+				4146C2401FB0421C0059A728 /* Fire.scnp in Resources */,
 				41A1097C1FAAF28700641C72 /* Explosion.scnp in Resources */,
 				EB3EF5661F88B54B002E69D6 /* RobotUIKit.bundle in Resources */,
 				41A1097D1FAAF28700641C72 /* spark.png in Resources */,
