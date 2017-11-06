@@ -88,7 +88,8 @@ class ViewController: UIViewController {
       self.highlightView?.frame = unnormalizedTrackImageBoundingBox
       self.hitNode(at: self.highlightView!.center, name: "pumpkin") {
         let charizard = self.charizardNode?.clone()
-        charizard?.position = self.charizardPosition!
+        let result = self.sceneView.hitTest(self.highlightView!.center, types: [.estimatedHorizontalPlane]).first!
+        charizard?.position = SCNVector3Make(result.worldTransform.columns.3.x, result.worldTransform.columns.3.y, result.worldTransform.columns.3.z)
         self.sceneView.scene.rootNode.addChildNode(charizard!)
       }
     }
