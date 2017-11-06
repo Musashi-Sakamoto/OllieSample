@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4146C2371FB01B260059A728 /* VirtualObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4146C2361FB01B260059A728 /* VirtualObject.swift */; };
 		41A109791FAADE1E00641C72 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 41A109781FAADE1E00641C72 /* art.scnassets */; };
 		41A1097C1FAAF28700641C72 /* Explosion.scnp in Resources */ = {isa = PBXBuildFile; fileRef = 41A1097A1FAAF28700641C72 /* Explosion.scnp */; };
 		41A1097D1FAAF28700641C72 /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 41A1097B1FAAF28700641C72 /* spark.png */; };
@@ -23,9 +24,11 @@
 		EB3EF5671F88B54B002E69D6 /* RobotUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB3EF5641F88B54B002E69D6 /* RobotUIKit.framework */; };
 		EB3EF56A1F88B5D9002E69D6 /* OllieOne-Bridging-Header.m in Sources */ = {isa = PBXBuildFile; fileRef = EB3EF5691F88B5D9002E69D6 /* OllieOne-Bridging-Header.m */; };
 		EB3EF56D1F8909E3002E69D6 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB3EF56C1F8909E3002E69D6 /* CoreMotion.framework */; };
+		EBD20B951FAED4D3000EA6A5 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBD20B941FAED4D3000EA6A5 /* Utility.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4146C2361FB01B260059A728 /* VirtualObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualObject.swift; sourceTree = "<group>"; };
 		41A109781FAADE1E00641C72 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 		41A1097A1FAAF28700641C72 /* Explosion.scnp */ = {isa = PBXFileReference; lastKnownFileType = file.scp; path = Explosion.scnp; sourceTree = "<group>"; };
 		41A1097B1FAAF28700641C72 /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
@@ -45,6 +48,7 @@
 		EB3EF5681F88B5D9002E69D6 /* OllieOni-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OllieOni-Bridging-Header.h"; sourceTree = "<group>"; };
 		EB3EF5691F88B5D9002E69D6 /* OllieOne-Bridging-Header.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OllieOne-Bridging-Header.m"; sourceTree = "<group>"; };
 		EB3EF56C1F8909E3002E69D6 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		EBD20B941FAED4D3000EA6A5 /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +110,8 @@
 				EB3EF5691F88B5D9002E69D6 /* OllieOne-Bridging-Header.m */,
 				EB3EF5681F88B5D9002E69D6 /* OllieOni-Bridging-Header.h */,
 				41A109781FAADE1E00641C72 /* art.scnassets */,
+				EBD20B941FAED4D3000EA6A5 /* Utility.swift */,
+				4146C2361FB01B260059A728 /* VirtualObject.swift */,
 			);
 			path = OllieOni;
 			sourceTree = "<group>";
@@ -150,7 +156,6 @@
 				TargetAttributes = {
 					EB3EF54C1F88B3F9002E69D6 = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = N89ERH987Q;
 						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -204,8 +209,10 @@
 			files = (
 				EB1DBB741FA8B05800C2D83A /* JoyStickView.swift in Sources */,
 				EB1DBB761FA8B08800C2D83A /* CoreGraphics+Additions.swift in Sources */,
+				EBD20B951FAED4D3000EA6A5 /* Utility.swift in Sources */,
 				EB3EF5531F88B3F9002E69D6 /* ViewController.swift in Sources */,
 				EB3EF56A1F88B5D9002E69D6 /* OllieOne-Bridging-Header.m in Sources */,
+				4146C2371FB01B260059A728 /* VirtualObject.swift in Sources */,
 				EB3EF5511F88B3F9002E69D6 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -330,7 +337,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = N89ERH987Q;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/OllieOni",
@@ -342,7 +349,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.Musashi.musashi.OllieOn;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Musashi.musashi.OllieOni;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "OllieOni/OllieOni-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -356,7 +363,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = N89ERH987Q;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/OllieOni",
@@ -368,7 +375,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.Musashi.musashi.OllieOn;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Musashi.musashi.OllieOni;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "OllieOni/OllieOni-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;

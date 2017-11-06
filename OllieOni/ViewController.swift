@@ -16,17 +16,12 @@ class ViewController: UIViewController {
   var robot: RKConvenienceRobot!
   var ledOn = false
   @IBOutlet weak var sceneView: ARSCNView!
-  @IBOutlet weak var highlightView: UIView? {
-    didSet {
-      self.highlightView?.layer.borderColor = UIColor.white.cgColor
-      self.highlightView?.layer.borderWidth = 2
-    }
-  }
+  @IBOutlet weak var highlightView: UIView?
   var visionSequenceHandler = VNSequenceRequestHandler()
   var lastObservation: VNDetectedObjectObservation?
   
   @IBOutlet weak var joystick: JoyStickView!
-  var pumpkinNode: SCNNode?
+  var pumpkinNode: VirtualObject?
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -36,7 +31,8 @@ class ViewController: UIViewController {
     sceneView.session.delegate = self
     sceneView.scene = SCNScene()
     
-    pumpkinNode = SCNScene(named: "art.scnassets/Halloween_Pumpkin.dae")!.rootNode.childNode(withName: "pumpkin", recursively: true)
+    pumpkinNode = VirtualObject(name: "Halloween_Pumpkin.dae")
+    pumpkinNode?.loadModel()
     
     setUpJoyStick()
     sceneView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(ViewController.userTapped(with:))))
@@ -195,6 +191,20 @@ extension ViewController: ARSCNViewDelegate {
             let pumpkin = pumpkinNode?.clone()
             pumpkin?.position = SCNVector3Make(planeAnchor.center.x, 0.1, planeAnchor.center.z)
             node?.addChildNode(pumpkin!)
+            let move1 = SCNAction.moveBy(x: 0.5, y: 0, z: 0, duration: 1)
+            let scale1 = SCNAction.scale(by: 3.0, duration: 1)
+            let group1 = SCNAction.group([move1, scale1])
+            let move2 = SCNAction.moveBy(x: -0.5, y: 0, z: 0, duration: 1)
+            let scale2 = SCNAction.scale(by: 1.0 / 3.0, duration: 1)
+            let group2 = SCNAction.group([move2, scale2])
+            let move3 = SCNAction.moveBy(x: 0, y: 0, z: 0.5, duration: 1)
+            let scale3 = SCNAction.scale(by: 3.0, duration: 1)
+            let group3 = SCNAction.group([move3, scale3])
+            let move4 = SCNAction.moveBy(x: 0, y: 0, z: -0.5, duration: 1)
+            let scale4 = SCNAction.scale(by: 1.0 / 3.0, duration: 1)
+            let group4 = SCNAction.group([move4, scale4])
+            let sequence = SCNAction.sequence([group1, group2, group3, group4])
+            Utility.repeatAction(node: node!, action: sequence)
         } else {
             print("not plane anchor \(anchor)")
         }
